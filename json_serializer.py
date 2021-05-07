@@ -489,15 +489,17 @@ class JsonSerializer:
         return res
 
     @staticmethod
-    def dump(obj, fp, indent=None):
+    def dump(obj, fp, sort_keys=False, indent=None):
         try:
             with open(fp, 'w') as file:
-                file.write(JsonSerializer.dumps(obj, indent))
+                file.write(JsonSerializer.dumps(obj, sort_keys, indent))
         except FileNotFoundError:
             raise FileNotFoundError("file doesn't exist")
 
     @staticmethod
-    def dumps(obj, indent=None):
+    def dumps(obj, sort_keys=False, indent=None):
+        JsonSerializer.func_found = {}
+        JsonSerializer.sort = sort_keys
         if isinstance(indent, int) and indent > 0:
             step = " " * indent
             res = JsonSerializer._dumps(obj, step)

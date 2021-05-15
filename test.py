@@ -38,6 +38,25 @@ class TestSerializer(unittest.TestCase):
         self.assertEqual(test.func_with_default(),
                          serializer.loads(serializer.dumps(test.func_with_default())))
 
+    def test_function_with_tuple(self):
+        self.assertEqual(test.func_with_tuple.__code__,
+                         serializer.loads(serializer.dumps(test.func_with_tuple.__code__)))
+
+    def test_function_with_set(self):
+        self.assertEqual(test.func_with_set.__code__,
+                         serializer.loads(serializer.dumps(test.func_with_set.__code__)))
+
     def test_class_method(self):
         self.assertEqual(test.Class1.class_method.__code__,
                          serializer.loads(serializer.dumps(test.Class1.class_method.__code__)))
+
+    def test_class(self):
+        serializer.dump(test.Class1, "test_class.json", False, 4)
+        class_after_des = serializer.load("test_class.json")
+        self.assertEqual(class_after_des.class_method(class_after_des), test.Class1.class_method(test.Class1))
+        self.assertEqual(class_after_des.a, test.Class1.a)
+
+    def test_class_static_method(self):
+        serializer.dump(test.ClassWithStaticMethod, "test_class_static.json", True, 4)
+        class_after_des = serializer.load("test_class_static.json")
+        self.assertEqual(class_after_des.static_method(), test.ClassWithStaticMethod.static_method())

@@ -21,8 +21,24 @@ def func_recursive(n):
         return 1
 
 
+def func_with_tuple(a, b):
+    a *= b
+    return a, b
+
+
+def func_with_set(a, b):
+    a /= b
+    return {a, b}
+
+
 class Class1:
-    string1 = "aa"
+    a = 10
 
     def class_method(self):
-        print(self.string1)
+        print(self.a)
+
+
+class ClassWithStaticMethod:
+    @staticmethod
+    def static_method():
+        print("Static works")

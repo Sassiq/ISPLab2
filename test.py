@@ -3,6 +3,7 @@ from fabric import Fabric
 import test_objects as test
 
 serializer = Fabric.create_serializer("Json")
+# serializer = Fabric.create_serializer("Pickle")
 
 
 class TestSerializer(unittest.TestCase):
